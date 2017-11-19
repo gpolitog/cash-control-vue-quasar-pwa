@@ -8,8 +8,8 @@
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title>
-          Layout Header
-          <span slot="subtitle">Optional subtitle</span>
+          Cash Control
+          <span slot="subtitle">Controle financeiro simples e rápido</span>
         </q-toolbar-title>
       </q-toolbar>
 
@@ -21,58 +21,65 @@
             <q-item-side icon="school" />
             <q-item-main label="Docs" sublabel="quasar-framework.org" />
           </q-side-link>
-          <q-side-link item to="/forum">
-            <q-item-side icon="record_voice_over" />
-            <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-          </q-side-link>
-          <q-side-link item to="/chat">
-            <q-item-side icon="chat" />
-            <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
-          </q-side-link>
-          <q-side-link item to="/twitter">
-            <q-item-side icon="rss feed" />
-            <q-item-main label="Twitter" sublabel="@quasarframework" />
-          </q-side-link>
         </q-list>
       </div>
-
-      <ul class="breadcrumb">
-        <!-- <li>
-                            <a>
-                              <q-icon name="home" />
-                            </a>
-                          </li> -->
-        <!-- <li>
-                            <a>
-                              <q-icon name="mail" /> Quasar
-                            </a>
-                          </li>
-                          <li>
-                            <a>
-                              <q-icon name="cloud" /> Breadcrumb
-                            </a>
-                          </li> -->
-      </ul>
 
       <!-- sub-routes get injected here: -->
       <router-view />
 
+      <q-modal ref="newEntryModal" maximized @close="clearFields()">
+        <q-modal-layout>
+          <q-toolbar slot="header">
+            <q-btn flat @click="toggleNewEntryModal()">
+              <q-icon name="keyboard_arrow_left" />
+            </q-btn>
+            <div class="q-toolbar-title">
+              Novo gasto
+            </div>
+          </q-toolbar>
+
+          <div class="layout-padding">
+            <!-- valor -->
+            <q-field icon="attach_money" helper="Quanto vc gastou motherfucker?" :error="valorHasError" error-label="Digite um valor correto" :count="10" labelWidth="12">
+              <q-input v-model="entryValue" type="number" float-label="Valor" max-length="10" prefix="R$" />
+            </q-field>
+
+            <q-field icon="today" helper="Quando vc gastou motherfucker?" labelWidth="12">
+              <q-datetime v-model="entryDate" type="date" float-label="Data" format="D/M/YYYY" @change="transformToTimestamp()" ok-label="Selecionar" cancel-label="Cancelar" no-clear />
+            </q-field>
+
+            <q-field icon="subject" helper="Com que porra vc gastou? De um excelente motivo" :count="30" labelWidth="12">
+              <q-input v-model="entryDescription" type="text" float-label="Descrição" max-length="30" />
+            </q-field>
+
+            <q-field icon="place" helper="Onde?" :count="30" labelWidth="12">
+              <q-input v-model="entryWhere" type="text" float-label="Local" max-length="30" />
+            </q-field>
+
+            <q-field icon="rotate_right" helper="Compra parcelada" :count="2" labelWidth="12">
+              <q-input v-model="entryParcelas" type="text" float-label="Parcelas" max-length="2" />
+            </q-field>
+
+            <!-- Category Select Dialog Box with Radios -->
+            <q-field icon="folder_open" label="Categoria">
+              <q-dialog-select v-model="entryCatrgory" :options="categoriesOptions" ok-label="Selecionar" cancel-label="Cancelar" title="Categorias" message="Em qual área da sua vida esse gasto é importante?" clearable color="lime" :before="addNewCategory" />
+            </q-field>
+            <br>
+            <q-btn big flat color="faded" @click="toggleNewEntryModal()">Cancelar</q-btn>
+            <q-btn big flat color="primary" @click="toggleNewEntryModal()">Adicionar</q-btn>
+          </div>
+        </q-modal-layout>
+      </q-modal>
+
       <q-fixed-position corner="bottom-right" :offset="[16, 16]" style="z-index: 2500">
         <q-fab @open="openTooltips()" @close="closeTooltips()" color="primary" icon="note_add" direction="up">
           <!-- actions -->
-          <q-fab-action color="purple" @click="closeTooltips()" icon="shopping_basket">
+          <q-fab-action color="purple" @click="toggleNewEntryModal()" icon="shopping_basket">
             <!-- action tooltip -->
-            <q-tooltip v-model="showing" ref="gastosTooltip" anchor="center left" self="center right" :offset="[20, 0]">Novo Gasto</q-tooltip>
+            <q-tooltip ref="gastosTooltip" anchor="center left" self="center right" :offset="[20, 0]">Novo Gasto</q-tooltip>
           </q-fab-action>
         </q-fab>
       </q-fixed-position>
-
-      <!-- Footer -->
-      <!-- <q-toolbar slot="footer">
-                          <q-toolbar-title>
-                            Layout Footer
-                          </q-toolbar-title>
-                        </q-toolbar> -->
     </q-layout>
   </div>
 </template>
@@ -86,7 +93,30 @@ import { Dialog, Toast } from 'quasar'
 export default {
   data() {
     return {
-      showing: false,
+      entryDate: undefined,
+      entryDescription: '',
+      entryValue: '',
+      valorHasError: false,
+      entryCatrgory: '',
+      categoriesOptions: [
+        {
+          label: 'Casa',
+          value: '1'
+        },
+        {
+          label: 'Carro',
+          value: '2'
+        }
+      ],
+      addNewCategory: [
+        {
+          icon: 'note_add',
+          content: false,
+          handler() {
+            console.log('add new category')
+          }
+        }
+      ],
     }
   },
   methods: {
@@ -111,6 +141,17 @@ export default {
       setTimeout(() => {
         this.$refs.gastosTooltip.close()
       }, 0)
+    },
+    toggleNewEntryModal() {
+      this.$refs.newEntryModal.toggle()
+    },
+    transformToTimestamp() {
+      this.entryDate = new Date(this.entryDate).getTime()
+    },
+    clearFields() {
+      this.entryDate = undefined
+      this.entryDescription = ''
+      this.entryValue = undefined
     }
   }
 }
@@ -126,6 +167,5 @@ h1
 
 ul.breadcrumb
   margin-top -40px
-
 
 </style>

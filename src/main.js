@@ -32,6 +32,13 @@ import Quasar, {
   QFabAction,
   QTooltip,
   QFixedPosition,
+  QModal,
+  QModalLayout,
+  QDatetime,
+  QField,
+  QInput,
+  QChipsInput,
+  QDialogSelect,
 } from 'quasar'
 import router from './router'
 
@@ -57,6 +64,13 @@ Vue.use(Quasar, {
     QFabAction,
     QTooltip,
     QFixedPosition,
+    QModal,
+    QModalLayout,
+    QDatetime,
+    QField,
+    QInput,
+    QChipsInput,
+    QDialogSelect,
   }
 }) // Install Quasar Framework
 

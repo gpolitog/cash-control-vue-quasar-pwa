@@ -32,11 +32,18 @@
           </q-item-tile>
         </q-item-side>
         <q-item-main>
-          <q-item-tile label>R$24.90</q-item-tile>
-          <q-item-tile sublabel>
-            <q-icon name="place" color="faded" style="margin-right: -2px" class="no-padding" />
-            <small>Siq Grill</small>
-          </q-item-tile>
+          <div class="row">
+            <div class="col first-content-column">
+              <q-item-tile label class="text-bold">R$24,90</q-item-tile>
+              <q-item-tile sublabel>
+                <q-icon name="place" color="faded" class="no-padding q-icon-place-margin" />
+                <small><a href="#">Siq Grill</a></small>
+              </q-item-tile>
+            </div>
+            <div class="col text-faded">
+              <small>almoco</small>
+            </div>
+          </div>
         </q-item-main>
         <q-item-side right>
           <q-item-tile>
@@ -58,11 +65,18 @@
           </q-item-tile>
         </q-item-side>
         <q-item-main>
-          <q-item-tile label>R$24.90</q-item-tile>
-          <q-item-tile sublabel>
-            <q-icon name="place" color="faded" style="margin-right: -2px" class="no-padding" />
-            <small>Siq Grill</small>
-          </q-item-tile>
+          <div class="row">
+            <div class="col first-content-column">
+              <q-item-tile label class="text-bold">R$24,90</q-item-tile>
+              <q-item-tile sublabel>
+                <q-icon name="place" color="faded" class="no-padding q-icon-place-margin" />
+                <small><a href="#">Siq Grill</a></small>
+              </q-item-tile>
+            </div>
+            <div class="col text-faded">
+              <small>pintura da parede de gesso</small>
+            </div>
+          </div>
         </q-item-main>
         <q-item-side right>
           <q-item-tile>
@@ -108,5 +122,14 @@ export default {
   .mounth-label
     text-align center
     padding 10px
+
+.q-list
+  .col
+    &.first-content-column
+      padding-right: 10px
+
+    .q-icon-place-margin
+      margin 0 -2px
+
 
 </style>
