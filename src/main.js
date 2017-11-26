@@ -28,9 +28,11 @@ import Quasar, {
   QListHeader,
   QCard,
   QCardTitle,
-  QFab,
-  QFabAction,
-  QTooltip,
+  QCardSeparator,
+  QCardMain,
+  QTabs,
+  QTab,
+  QCollapsible,
   QFixedPosition,
   QModal,
   QModalLayout,
@@ -40,6 +42,7 @@ import Quasar, {
   QChipsInput,
   QDialogSelect,
 } from 'quasar'
+import VueFire from 'vuefire'
 import router from './router'
 
 Vue.config.productionTip = false
@@ -60,9 +63,11 @@ Vue.use(Quasar, {
     QListHeader,
     QCard,
     QCardTitle,
-    QFab,
-    QFabAction,
-    QTooltip,
+    QCardSeparator,
+    QCardMain,
+    QTabs,
+    QTab,
+    QCollapsible,
     QFixedPosition,
     QModal,
     QModalLayout,
@@ -73,6 +78,8 @@ Vue.use(Quasar, {
     QDialogSelect,
   }
 }) // Install Quasar Framework
+
+Vue.use(VueFire)
 
 AddressbarColor.set('#80cbc4')
 

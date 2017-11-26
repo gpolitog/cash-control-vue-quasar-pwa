@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import CashControlIndex from '@/Index.vue'
-import CashControlHome from '@/CashControlHome.vue'
-import CashControlGastos from '@/CashControlGastos.vue'
-import HelloRecebimentos from '@/HelloRecebimentos.vue'
-import HelloContasFixas from '@/HelloContasFixas.vue'
-import HelloResumo from '@/HelloResumo.vue'
+import Index from '@/Index.vue'
+import Home from '@/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -35,32 +31,12 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      component: CashControlIndex,
+      component: Index,
       children: [
         {
           // default
           path: '',
-          component: CashControlHome
-        },
-        {
-          // /recebimentos
-          path: 'recebimentos',
-          component: HelloRecebimentos
-        },
-        {
-          // /contas-fixas
-          path: 'contas-fixas',
-          component: HelloContasFixas
-        },
-        {
-          // /gastos
-          path: 'gastos',
-          component: CashControlGastos
-        },
-        {
-          // /resumo
-          path: 'resumo',
-          component: HelloResumo
+          component: Home
         }
       ]
     }
