@@ -33,8 +33,10 @@
 </template>
 
 <script>
+import FirebaseRefs from '../config/firebase.config'
+
 export default {
-  name: 'NewGasto',
+  name: 'NewGastoForm',
   data() {
     return {
       entryDate: undefined,
@@ -65,6 +67,9 @@ export default {
       ],
     }
   },
+  firebase: {
+    gastosRef: FirebaseRefs.gastosRef,
+  },
   methods: {
     transformToTimestamp() {
       this.entryDate = new Date(this.entryDate).getTime()
@@ -75,9 +80,14 @@ export default {
       this.entryValue = undefined
     },
     addNewGasto() {
-      this.$emit('self-close')
+      console.log(this.gastosRef)
+      this.$firebaseRefs.gastosRef.push({
+        valor: 50.00,
+        data: '26/11/2017',
+        categoria: 'combustível'
+      })
     }
-  }
+  },
 }
 </script>
 

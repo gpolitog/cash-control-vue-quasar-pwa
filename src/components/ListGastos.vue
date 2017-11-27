@@ -72,7 +72,7 @@
         </q-item-main>
         <q-item-side right>
           <q-item-tile>
-            <q-icon :name="gasto.icon" color="faded" size="35px"></q-icon>
+            <q-icon :name="gasto.icon" :title="gasto.categoria" color="faded" size="35px"></q-icon>
           </q-item-tile>
         </q-item-side>
       </q-item>
@@ -84,8 +84,15 @@
 export default {
   props: ['gastos'],
   computed: {
-    ultimoGasto: function() {
-      console.log(Boolean(this.gastos[0]))
+    gastosComputed: function() {
+      return this.gastos.map(gasto => {
+        return Object.assign(gasto, {
+          icon: this.getIconByDescription(gasto.categoria),
+          data: this.formatDate(gasto.data)
+        })
+      })
+    },
+    ultimoGastoComputed: function() {
       if (this.gastos[0]) {
         return Object.assign(this.gastos[0], {
           data: this.formatDate(this.gastos[0].data),
@@ -95,28 +102,20 @@ export default {
 
       return null
     },
-    gastosComputed: function() {
-      return this.gastos.map(gasto => {
-        return Object.assign(gasto, {
-          icon: this.getIconByDescription(gasto.categoria),
-          data: this.formatDate(gasto.data)
-        })
-      })
-    },
   },
   methods: {
     formatDate(date) {
-      return parseInt(date.split('/')[0])
+      return parseInt(date.toString().split('/')[0])
     },
     getIconByDescription(description) {
       let icon = ''
 
       switch (description) {
-        case 'alimentacão':
+        case 'alimentação':
         case 'restaurante':
         case 'almoço':
         case 'janta':
-          icon = 'local_dinning'
+          icon = 'local_dining'
           break
         case 'moto':
           icon = 'motorcycle'
@@ -195,7 +194,8 @@ export default {
         case 'gasolina':
         case 'álcool':
         case 'combustível':
-          icon = 'local_hospital'
+        case 'petróleo':
+          icon = 'opacity'
           break
         case 'hotel':
         case 'motel':

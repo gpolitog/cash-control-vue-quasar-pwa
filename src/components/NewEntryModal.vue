@@ -12,7 +12,7 @@
 
       <q-tabs>
         <!-- Tabs -->
-        <q-tab default @select="showGastoForm()" slot="title" icon="shopping_basket" />
+        <q-tab default @select="switchToGastoFormTab()" slot="title" icon="shopping_basket" />
         <q-tab @select="showRecebimentoForm()" slot="title" icon="account_balance_wallet" />
         <q-tab @select="showContaFixaForm()" slot="title" icon="rotate_right" />
         <q-tab @select="showInvestimentoForm()" slot="title" icon="accessibility" />
@@ -20,7 +20,9 @@
     </div>
 
     <div class="layout-padding" style="margin-top: 103px;">
-      <component :is="currentTab" v-on:self-close="selfClose()"></component>
+      <component :is="currentTab">
+        Carregando tab...
+      </component>
     </div>
   </q-layout>
 </template>
@@ -34,9 +36,9 @@ const ErrorComp = {
   template: 'error'
 }
 
-const AsyncNewGastoComp = () => ({
+const AsyncNewGastoForm = () => ({
   // The component to load. Should be a Promise
-  component: import('@/NewGasto.vue'),
+  component: import('@/NewGastoForm.vue'),
   // A component to use while the async component is loading
   loading: LoadingComp,
   // A component to use if the load fails
@@ -94,12 +96,12 @@ export default {
   name: 'NewEntryModal',
   data() {
     return {
-      currentTab: AsyncNewGastoComp,
+      currentTab: AsyncNewGastoForm,
     }
   },
   methods: {
-    showGastoForm() {
-      this.currentTab = AsyncNewGastoComp
+    switchToGastoFormTab() {
+      this.currentTab = AsyncNewGastoForm
     },
     showRecebimentoForm() {
       this.currentTab = AsyncNewRecebimentoComp
@@ -112,8 +114,8 @@ export default {
     },
     selfClose() {
       this.$emit('self-close')
-    }
-  }
+    },
+  },
 }
 </script>
 

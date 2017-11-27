@@ -66,7 +66,9 @@
     <div v-if="renderWrapperModal">
       <q-modal ref="newEntryModal" v-model="openModal" maximized>
         <q-modal-layout>
-          <new-entry-modal v-on:self-close="toggleNewEntryModal()"></new-entry-modal>
+          <new-entry-modal v-on:self-close="toggleNewEntryModal()">
+            Carregando modal...
+          </new-entry-modal>
         </q-modal-layout>
       </q-modal>
     </div>
@@ -80,20 +82,7 @@
 <script>
 import ListGastos from '@/ListGastos.vue'
 import NewEntryModal from '@/NewEntryModal.vue'
-import Firebase from 'firebase'
-
-const config = {
-  apiKey: 'AIzaSyBX_Ihtt-t_ZXsUqhbgPgCPwXuq5rNQs44',
-  authDomain: 'cashcontrol-50fd5.firebaseapp.com',
-  databaseURL: 'https://cashcontrol-50fd5.firebaseio.com',
-  projectId: 'cashcontrol-50fd5',
-  storageBucket: '',
-  messagingSenderId: '869689214748'
-}
-
-const app = Firebase.initializeApp(config)
-const db = app.database()
-const gastosRef = db.ref('gastos')
+import FirebaseRefs from '../config/firebase.config'
 
 export default {
   name: 'Home',
@@ -103,10 +92,11 @@ export default {
       openModal: true,
       // but its wrapper is not rendered
       renderWrapperModal: false,
+      newGasto: {},
     }
   },
   firebase: {
-    gastos: gastosRef,
+    gastos: FirebaseRefs.gastosRef,
   },
   components: {
     ListGastos,
@@ -121,7 +111,11 @@ export default {
         $body.style.paddingRight = '0'
       }
     },
-  }
+    addNewGasto() {
+      console.log('add new gasto - home:', this.newGasto)
+      this.gastos.push(this.newGasto)
+    },
+  },
 }
 </script>
 
